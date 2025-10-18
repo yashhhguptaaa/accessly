@@ -58,7 +58,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full">
         {label && (
-          <label htmlFor={props.id} className={labelClasses}>
+          <label
+            htmlFor={props.id}
+            className={
+              "block text-xs font-bold text-gray-700 mb-1 sm:text-base"
+            }
+          >
             {label}
             {required && <span className="text-red-500 ml-1">*</span>}
           </label>

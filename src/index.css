@@ -1,3 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/* Custom rounded classes for Input component */
+.input-rounded {
+  border-radius: 0.5rem; /* equivalent to rounded-lg */
+}
