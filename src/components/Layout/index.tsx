@@ -1,9 +1,28 @@
-import { layoutContainer, layoutContent } from "./style";
+import { floatingLayoutContainer, layoutContainer } from "./style";
+import classNames from "classnames";
 
-export const Layout = ({ children }: { children: React.ReactNode }) => {
+export const Layout = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
   return (
-    <div className={layoutContainer}>
-      <div className={layoutContent}>{children}</div>
+    <div className={classNames(layoutContainer, className)}>{children}</div>
+  );
+};
+
+export const FloatingLayout = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return (
+    <div className={classNames(floatingLayoutContainer, className)}>
+      {children}
     </div>
   );
 };

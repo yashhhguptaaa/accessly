@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { FormFooter, SignUpForm, SignInForm } from "./index";
 import { Header } from "@/components/Header";
-import { Layout } from "@/components/Layout";
+import { FloatingLayout, Layout } from "@/components/Layout";
 
 type AuthMode = "signin" | "signup";
 
@@ -51,22 +51,24 @@ const AuthPage = () => {
   return (
     <div className="min-h-screen bg-white">
       <Header />
-      <Layout>
-        {isSignUp ? (
-          <SignUpForm onSubmit={handleSignUp} isLoading={isLoading} />
-        ) : (
-          <SignInForm onSubmit={handleSignIn} isLoading={isLoading} />
-        )}
+      <FloatingLayout>
+        <Layout>
+          {isSignUp ? (
+            <SignUpForm onSubmit={handleSignUp} isLoading={isLoading} />
+          ) : (
+            <SignInForm onSubmit={handleSignIn} isLoading={isLoading} />
+          )}
 
-        {/* Form Footer */}
-        <FormFooter
-          question={
-            isSignUp ? "Already have an account?" : "Don't have an account?"
-          }
-          actionText={isSignUp ? "Sign In" : "Sign Up"}
-          onAction={isSignUp ? switchToSignIn : switchToSignUp}
-        />
-      </Layout>
+          {/* Form Footer */}
+          <FormFooter
+            question={
+              isSignUp ? "Already have an account?" : "Don't have an account?"
+            }
+            actionText={isSignUp ? "Sign In" : "Sign Up"}
+            onAction={isSignUp ? switchToSignIn : switchToSignUp}
+          />
+        </Layout>
+      </FloatingLayout>
     </div>
   );
 };

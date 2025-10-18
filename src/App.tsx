@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Header } from "./components/Header";
 import type { User } from "./types";
+import { Feed } from "./components/Feed";
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -16,6 +17,7 @@ function App() {
   return (
     <>
       <Header user={user} onLogin={handleLogin} onLogout={handleLogout} />
+      <Feed />
     </>
   );
 }

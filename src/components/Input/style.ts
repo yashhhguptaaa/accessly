@@ -16,9 +16,9 @@ export const getVariantClasses = (
   const variantClasses = {
     default: error
       ? "border-red-300 focus:border-red-500 focus:ring-red-500"
-      : "border-gray-300 focus:border-blue-500 focus:ring-blue-500",
+      : "border-gray-300",
     error: "border-red-300 focus:border-red-500 focus:ring-red-500",
-    success: "border-green-300 focus:border-green-500 focus:ring-green-500",
+    success: "border-green-300",
   };
 
   return variantClasses[variant];
@@ -30,14 +30,15 @@ export const getInputClasses = (
   error?: string,
   isPassword?: boolean,
   showPasswordToggle?: boolean,
-  className?: string
+  className?: string,
+  placeholderFontWeight: string = "font-normal"
 ): string => {
   return classNames(
     // Base classes
     "w-full rounded-lg border bg-white transition-colors duration-200",
-    "focus:outline-none focus:ring-2 focus:ring-opacity-50",
+    "focus:outline-none",
     "disabled:bg-gray-100 disabled:cursor-not-allowed",
-    "placeholder:text-gray-500",
+    `placeholder:text-gray-500 ${placeholderFontWeight}`,
     "min-h-[44px] sm:min-h-[48px] md:min-h-[52px]",
 
     // Size classes
