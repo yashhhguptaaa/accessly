@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { validateIdentifier, validatePassword } from "../../utils/validation";
-import FormCard from "./FormCard";
-import FormHeader from "./FormHeader";
-import Input from "../Input";
+import { validateIdentifier, validatePassword } from "@/utils/validation";
+import { FormCard, FormHeader } from "./index";
+import Input from "@/components/Input";
 
 interface SignUpFormProps {
   onSubmit: (data: SignUpData) => void;

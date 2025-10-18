@@ -1,10 +1,8 @@
 import { useState } from "react";
 
-import FormFooter from "./FormFooter";
-import SignUpForm from "./SignUpForm";
-import SignInForm from "./SignInForm";
-import { Header } from "../Header";
-import { Layout } from "./Layout";
+import { FormFooter, SignUpForm, SignInForm } from "./index";
+import { Header } from "@/components/Header";
+import { Layout } from "@/components/Layout";
 
 type AuthMode = "signin" | "signup";
 
