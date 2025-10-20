@@ -9,6 +9,7 @@ import { useCreatePost } from "@/hooks/useCreatePost";
 import { useAuthModal } from "@/contexts/AuthModalContext";
 import { showActionToast } from "@/utils/toast";
 import type { Post } from "./Post";
+import { useFeed } from "@/hooks/useFeed";
 
 interface WritePostProps {
   onPostCreated?: (post: Post) => void;
@@ -20,6 +21,7 @@ export const WritePost: React.FC<WritePostProps> = ({ onPostCreated }) => {
   const [selectedEmoji, setSelectedEmoji] = useState<string | null>(null);
   const { user, isAuthenticated } = useAuth();
   const { openAuthModal } = useAuthModal();
+  const { handleUnimplementedAction } = useFeed();
 
   // Use the custom hook for post creation
   const { createPost, isSubmitting } = useCreatePost();
@@ -98,7 +100,7 @@ export const WritePost: React.FC<WritePostProps> = ({ onPostCreated }) => {
 
       {/* Preview Section */}
       <div className="bg-white border border-t-0 border-gray-300 rounded-b-2xl px-2 py-1 sm:px-3 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1)] w-full flex flex-row justify-between">
-        <ActionButtons />
+        <ActionButtons onClick={handleUnimplementedAction} />
         <SendButton
           onClick={handleSubmitPost}
           disabled={!postContent.trim() || isSubmitting}
