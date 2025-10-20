@@ -1,24 +1,24 @@
 import React, { useState } from "react";
-import { validateIdentifier, validatePassword } from "@/utils/validation";
+import { validatePassword } from "@/utils/validation";
 import { FormCard, FormHeader } from "./index";
 import Input from "@/components/Input";
 
 interface SignInFormProps {
-  onSubmit: (data: SignInData) => void;
+  onSubmit?: (data: SignInData) => void;
   isLoading?: boolean;
 }
 
 interface SignInData {
-  identifier: string;
+  email: string;
   password: string;
 }
 
 const SignInForm: React.FC<SignInFormProps> = ({
   onSubmit,
-  isLoading = false,
+  isLoading: externalLoading,
 }) => {
   const [formData, setFormData] = useState<SignInData>({
-    identifier: "",
+    email: "",
     password: "",
   });
 
@@ -38,10 +38,9 @@ const SignInForm: React.FC<SignInFormProps> = ({
   const validateForm = (): boolean => {
     const newErrors: Partial<SignInData> = {};
 
-    // Validate identifier
-    const identifierError = validateIdentifier(formData.identifier);
-    if (identifierError) {
-      newErrors.identifier = identifierError;
+    // Validate email
+    if (!formData.email) {
+      newErrors.email = "Email is required";
     }
 
     // Validate password
@@ -54,11 +53,11 @@ const SignInForm: React.FC<SignInFormProps> = ({
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (validateForm()) {
-      onSubmit(formData);
+      onSubmit?.(formData);
     }
   };
 
@@ -69,16 +68,16 @@ const SignInForm: React.FC<SignInFormProps> = ({
         description="Sign in to access all the features on this app"
       />
       <form onSubmit={handleSubmit} className="w-full space-y-4">
-        {/* Email or Username */}
+        {/* Email */}
         <Input
-          id="identifier"
-          label="Email or username"
-          type="text"
-          placeholder="Enter your email or username"
-          value={formData.identifier}
-          onChange={handleInputChange("identifier")}
+          id="email"
+          label="Email"
+          type="email"
+          placeholder="Enter your email"
+          value={formData.email}
+          onChange={handleInputChange("email")}
           className="rounded-xl border-none !bg-gray-100"
-          error={errors.identifier}
+          error={errors.email}
         />
 
         {/* Password */}
@@ -97,10 +96,10 @@ const SignInForm: React.FC<SignInFormProps> = ({
         {/* Submit Button */}
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={externalLoading}
           className="w-full bg-blue-600 hover:bg-blue-800 disabled:bg-blue-500 text-white font-medium py-3 px-4 rounded-xl transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
         >
-          {isLoading ? "Signing In..." : "Sign In"}
+          {externalLoading ? "Signing In..." : "Sign In"}
         </button>
       </form>
     </FormCard>

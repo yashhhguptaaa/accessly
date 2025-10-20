@@ -14,9 +14,11 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.75.1",
     "classnames": "^2.5.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.9.4"
   },
   "devDependencies": {

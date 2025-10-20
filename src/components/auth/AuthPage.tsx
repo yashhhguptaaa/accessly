@@ -1,52 +1,21 @@
-import { useState } from "react";
-
 import { FormFooter, SignUpForm, SignInForm } from "./index";
 import { Header } from "@/components/Header";
 import { FloatingLayout, Layout } from "@/components/Layout";
+import { useAuthPage } from "@/hooks/useAuthPage";
 
-type AuthMode = "signin" | "signup";
+interface AuthPageProps {
+  onAuthSuccess?: () => void;
+}
 
-const AuthPage = () => {
-  const [mode, setMode] = useState<AuthMode>("signup");
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSignUp = async (data: {
-    identifier: string;
-    password: string;
-    confirmPassword: string;
-  }) => {
-    setIsLoading(true);
-    try {
-      // TODO: Implement actual sign-up logic
-      console.log("Sign up data:", data);
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call
-    } catch (error) {
-      console.error("Sign up error:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSignIn = async (data: {
-    identifier: string;
-    password: string;
-  }) => {
-    setIsLoading(true);
-    try {
-      // TODO: Implement actual sign-in logic
-      console.log("Sign in data:", data);
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call
-    } catch (error) {
-      console.error("Sign in error:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const switchToSignIn = () => setMode("signin");
-  const switchToSignUp = () => setMode("signup");
-
-  const isSignUp = mode === "signup";
+const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
+  const {
+    isLoading,
+    handleSignUp,
+    handleSignIn,
+    switchToSignIn,
+    switchToSignUp,
+    isSignUp,
+  } = useAuthPage({ onAuthSuccess });
 
   return (
     <div className="min-h-screen bg-white">

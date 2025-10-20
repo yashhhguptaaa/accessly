@@ -4,7 +4,7 @@ import { FormCard, FormHeader } from "./index";
 import Input from "@/components/Input";
 
 interface SignUpFormProps {
-  onSubmit: (data: SignUpData) => void;
+  onSubmit?: (data: SignUpData) => void;
   isLoading?: boolean;
 }
 
@@ -61,11 +61,11 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (validateForm()) {
-      onSubmit(formData);
+      onSubmit?.(formData);
     }
   };
 

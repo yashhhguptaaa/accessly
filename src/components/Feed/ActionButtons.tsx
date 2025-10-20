@@ -1,3 +1,4 @@
+import React from "react";
 import plusIcon from "/svg/plus-icon.svg";
 import microphoneIcon from "/svg/microphone-icon.svg";
 import videoIcon from "/svg/video-icon.svg";
@@ -19,9 +20,23 @@ export const ActionButtons = () => {
   );
 };
 
-export const SendButton = () => {
+interface SendButtonProps {
+  onClick?: () => void;
+  disabled?: boolean;
+}
+
+export const SendButton: React.FC<SendButtonProps> = ({
+  onClick,
+  disabled = false,
+}) => {
   return (
-    <button className="cursor-pointer">
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={`cursor-pointer transition-opacity ${
+        disabled ? "opacity-50" : "hover:opacity-80"
+      }`}
+    >
       <img src={sendIcon} alt="send" width={25} height={25} />
     </button>
   );
