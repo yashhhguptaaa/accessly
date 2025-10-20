@@ -1,4 +1,4 @@
-# Accessly - Atlys Frontend Hiring Task
+# Accessly
 
 A modern social media application built with React, TypeScript, and Tailwind CSS, implementing a complete authentication flow and interactive feed as per the Atlys frontend hiring task requirements.
 
