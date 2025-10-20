@@ -110,7 +110,7 @@ export const signOut = async (): Promise<{ error: string | null }> => {
   }
 };
 
-export const getCurrentUser = async (): Promise<User | null> => {
+export const getCurrentUser = () => {
   try {
     return getSession();
   } catch (error) {

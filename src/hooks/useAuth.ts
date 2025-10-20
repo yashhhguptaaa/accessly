@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import {
   getCurrentUser,
   signInWithCredentials,
@@ -19,25 +19,9 @@ interface UseAuthReturn {
 }
 
 export const useAuth = (): UseAuthReturn => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Check for existing user session on mount
-  useEffect(() => {
-    const checkUser = async () => {
-      setIsLoading(true);
-      try {
-        const currentUser = await getCurrentUser();
-        setUser(currentUser);
-      } catch (error) {
-        setUser(null);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    checkUser();
-  }, []);
+  const user = getCurrentUser();
 
   const signIn = useCallback(
     async (
@@ -52,7 +36,6 @@ export const useAuth = (): UseAuthReturn => {
           return { error: result.error };
         }
 
-        setUser(result.user);
         setIsLoading(false);
         return { error: null };
       } catch (error) {
@@ -71,14 +54,11 @@ export const useAuth = (): UseAuthReturn => {
       try {
         const result = await signUpWithCredentials(credentials);
 
-        console.log("useAuth signUp result:", result);
         if (result.error) {
           setIsLoading(false);
           return { error: result.error };
         }
 
-        // Note: User might need to verify email before being fully signed in
-        setUser(result.user);
         setIsLoading(false);
         return { error: null };
       } catch (error) {
@@ -93,7 +73,6 @@ export const useAuth = (): UseAuthReturn => {
     setIsLoading(true);
     try {
       const result = await signOut();
-      setUser(null);
       setIsLoading(false);
       return result;
     } catch (error) {
