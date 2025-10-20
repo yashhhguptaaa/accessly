@@ -1,11 +1,15 @@
+import { useAuth } from "@/hooks/useAuth";
 import React, { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface AuthModalContextType {
   isAuthModalOpen: boolean;
   openAuthModal: () => void;
   closeAuthModal: () => void;
   onAuthSuccess: () => void;
+  handleLogin: () => void;
+  handleLogout: () => Promise<void>;
 }
 
 const AuthModalContext = createContext<AuthModalContextType | undefined>(
@@ -20,6 +24,8 @@ export const AuthModalProvider: React.FC<AuthModalProviderProps> = ({
   children,
 }) => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const router = useNavigate();
+  const { logout } = useAuth();
 
   const openAuthModal = () => {
     setIsAuthModalOpen(true);
@@ -33,11 +39,21 @@ export const AuthModalProvider: React.FC<AuthModalProviderProps> = ({
     closeAuthModal();
   };
 
+  const handleLogin = () => {
+    router("/login");
+  };
+
+  const handleLogout = async () => {
+    await logout();
+  };
+
   const value: AuthModalContextType = {
     isAuthModalOpen,
     openAuthModal,
     closeAuthModal,
     onAuthSuccess,
+    handleLogin,
+    handleLogout,
   };
 
   return (

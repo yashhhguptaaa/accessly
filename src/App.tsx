@@ -5,25 +5,24 @@ import { AuthPage } from "./components/auth";
 import { LoadingSpinner } from "./components/LoadingSpinner";
 import { Modal } from "./components/Modal";
 import { AuthModalProvider, useAuthModal } from "./contexts/AuthModalContext";
+import { Fragment } from "react";
 
 function AppContent() {
-  const { user, logout, isLoading } = useAuth();
-  const { isAuthModalOpen, closeAuthModal, onAuthSuccess } = useAuthModal();
-
-  const handleLogin = () => {
-    // This will be handled by the context
-  };
-
-  const handleLogout = async () => {
-    await logout();
-  };
+  const { user, isLoading } = useAuth();
+  const {
+    isAuthModalOpen,
+    closeAuthModal,
+    onAuthSuccess,
+    handleLogin,
+    handleLogout,
+  } = useAuthModal();
 
   if (isLoading) {
     return <LoadingSpinner message="Checking authentication..." />;
   }
 
   return (
-    <>
+    <Fragment>
       <Header user={user} onLogin={handleLogin} onLogout={handleLogout} />
       <Feed />
 
@@ -31,7 +30,7 @@ function AppContent() {
       <Modal isOpen={isAuthModalOpen} onClose={closeAuthModal}>
         <AuthPage onAuthSuccess={onAuthSuccess} />
       </Modal>
-    </>
+    </Fragment>
   );
 }
 
