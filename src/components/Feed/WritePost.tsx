@@ -17,7 +17,6 @@ interface WritePostProps {
 
 export const WritePost: React.FC<WritePostProps> = ({ onPostCreated }) => {
   const [postContent, setPostContent] = useState("");
-  const [activeFormats, setActiveFormats] = useState<string[]>([]);
   const [selectedEmoji, setSelectedEmoji] = useState<string | null>(null);
   const { user, isAuthenticated } = useAuth();
   const { openAuthModal } = useAuthModal();
@@ -47,7 +46,6 @@ export const WritePost: React.FC<WritePostProps> = ({ onPostCreated }) => {
             // Reset form on success
             setPostContent("");
             setSelectedEmoji(null);
-            setActiveFormats([]);
             onPostCreated?.(newPost);
           },
           onError: (error) => {
@@ -61,22 +59,11 @@ export const WritePost: React.FC<WritePostProps> = ({ onPostCreated }) => {
     }
   };
 
-  const toggleFormat = (format: string) => {
-    setActiveFormats((prev) =>
-      prev.includes(format)
-        ? prev.filter((f) => f !== format)
-        : [...prev, format]
-    );
-  };
-
   return (
     <Layout className="!p-1 sm:!p-2 min-w-[480px] md:min-w-[638px]">
       <div className="bg-white border border-gray-300 rounded-t-2xl p-2 sm:p-3 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] w-full flex flex-col gap-2 sm:gap-3">
         {/* Formatting Toolbar */}
-        <FormattingToolbar
-          activeFormats={activeFormats}
-          onFormatToggle={toggleFormat}
-        />
+        <FormattingToolbar />
 
         {/* Text Input Area */}
         <div className="flex flex-row gap-2 sm:gap-3">
