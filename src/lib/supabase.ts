@@ -15,21 +15,18 @@ export interface Database {
           email_or_username: string;
           password: string;
           created_at: string;
-          updated_at: string;
         };
         Insert: {
           id?: string;
           email_or_username: string;
           password: string;
           created_at?: string;
-          updated_at?: string;
         };
         Update: {
           id?: string;
           email_or_username?: string;
           password?: string;
           created_at?: string;
-          updated_at?: string;
         };
       };
       posts: {
@@ -39,7 +36,6 @@ export interface Database {
           author_id: string;
           emoji: string | null;
           created_at: string;
-          updated_at: string;
         };
         Insert: {
           id?: string;
@@ -47,7 +43,6 @@ export interface Database {
           author_id: string;
           emoji?: string | null;
           created_at?: string;
-          updated_at?: string;
         };
         Update: {
           id?: string;
@@ -55,7 +50,6 @@ export interface Database {
           author_id?: string;
           emoji?: string | null;
           created_at?: string;
-          updated_at?: string;
         };
       };
     };
