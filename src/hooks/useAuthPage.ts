@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "./useAuth";
 import { showToast } from "@/utils/toast";
+import { useNavigate, useLocation } from "react-router-dom";
 
 type AuthMode = "signin" | "signup";
 
@@ -27,6 +28,15 @@ export const useAuthPage = ({
 }: UseAuthPageProps): UseAuthPageReturn => {
   const [mode, setMode] = useState<AuthMode>("signup");
   const { signIn, signUp, isLoading: authLoading } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleAuthSuccess = () => {
+    onAuthSuccess?.();
+
+    // If on login page, redirect to homepage after successful authentication
+    if (location.pathname === "/login") navigate("/");
+  };
 
   const handleSignUp = async (data: {
     identifier: string;
@@ -34,7 +44,6 @@ export const useAuthPage = ({
     confirmPassword: string;
   }) => {
     try {
-      console.log("handleSignUp data:", data);
       const { error } = await signUp({
         email: data.identifier,
         password: data.password,
@@ -42,15 +51,13 @@ export const useAuthPage = ({
         username: data.identifier, // Use identifier as username
       });
 
-      console.log("handleSignUp error:", error);
-
       if (error) {
         showToast.error("Sign up failed: " + error);
       } else {
         showToast.success(
           "Account created successfully! Please check your email to verify your account."
         );
-        onAuthSuccess?.();
+        handleAuthSuccess();
       }
     } catch (error) {
       showToast.error("An unexpected error occurred during sign up");
@@ -70,7 +77,7 @@ export const useAuthPage = ({
         showToast.success(
           "Welcome back! You have been signed in successfully."
         );
-        onAuthSuccess?.();
+        handleAuthSuccess();
       }
     } catch (error) {
       showToast.error("An unexpected error occurred during sign in");
