@@ -1,10 +1,6 @@
 # Accessly
 
-A modern social media application built with React, TypeScript, and Tailwind CSS, implementing a complete authentication flow and interactive feed as per the Atlys frontend hiring task requirements.
-
-## 🎯 Task Overview
-
-This project implements the [Atlys Frontend Hiring Task](https://www.figma.com/proto/9il6CZ3STFOcYutSsGNA2v/Front-end-hiring-assignment?node-id=1-2&t=gR0TS9whDhfSJQqI-1&starting-point-node-id=1%3A2) with the following core requirements:
+A modern social media application built with React, TypeScript, and Tailwind CSS, implementing a complete authentication flow and interactive feed.
 
 ### ✅ **Implemented Features**
 
