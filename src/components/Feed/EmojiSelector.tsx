@@ -529,113 +529,114 @@ const EMOJI_CATEGORIES = {
   ],
 };
 
-export const EmojiSelector: React.FC<EmojiSelectorProps> = ({
-  onEmojiSelect,
-  selectedEmoji,
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeCategory, setActiveCategory] =
-    useState<keyof typeof EMOJI_CATEGORIES>("Smileys & Emotion");
-  const dropdownRef = useRef<HTMLDivElement>(null);
+export const EmojiSelector: React.FC<EmojiSelectorProps> = React.memo(
+  ({ onEmojiSelect, selectedEmoji }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [activeCategory, setActiveCategory] =
+      useState<keyof typeof EMOJI_CATEGORIES>("Smileys & Emotion");
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
+    // Close dropdown when clicking outside
+    useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (
+          dropdownRef.current &&
+          !dropdownRef.current.contains(event.target as Node)
+        ) {
+          setIsOpen(false);
+        }
+      };
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, []);
+
+    const handleEmojiClick = (emoji: string) => {
+      onEmojiSelect(emoji);
+      setIsOpen(false);
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+    return (
+      <div className="relative" ref={dropdownRef}>
+        {/* Emoji Button */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="flex items-center mt-[2px] justify-center w-5 h-5 rounded-full hover:bg-gray-100 transition-colors duration-200 focus:outline-none"
+          aria-label="Open emoji selector"
+        >
+          {selectedEmoji ? (
+            <span className="text-lg">{selectedEmoji}</span>
+          ) : (
+            <svg
+              className="w-6 h-6 text-gray-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-7.5 0v1a4.5 4.5 0 009 0V10M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z"
+              />
+            </svg>
+          )}
+        </button>
 
-  const handleEmojiClick = (emoji: string) => {
-    onEmojiSelect(emoji);
-    setIsOpen(false);
-  };
-
-  return (
-    <div className="relative" ref={dropdownRef}>
-      {/* Emoji Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center mt-[2px] justify-center w-5 h-5 rounded-full hover:bg-gray-100 transition-colors duration-200 focus:outline-none"
-        aria-label="Open emoji selector"
-      >
-        {selectedEmoji ? (
-          <span className="text-lg">{selectedEmoji}</span>
-        ) : (
-          <svg
-            className="w-6 h-6 text-gray-600"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-7.5 0v1a4.5 4.5 0 009 0V10M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z"
-            />
-          </svg>
-        )}
-      </button>
-
-      {/* Emoji Dropdown */}
-      {isOpen && (
-        <div className="absolute top-7 right-full mb-2 w-80 max-h-96 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-          {/* Category Tabs */}
-          <div className="flex border-b border-gray-200 overflow-x-auto">
-            {Object.keys(EMOJI_CATEGORIES).map((category) => (
-              <button
-                key={category}
-                onClick={() =>
-                  setActiveCategory(category as keyof typeof EMOJI_CATEGORIES)
-                }
-                className={`flex-1 px-3 py-2 text-sm font-medium transition-colors duration-200 whitespace-nowrap ${
-                  activeCategory === category
-                    ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                }`}
-              >
-                {category === "Smileys & Emotion" && "😊"}
-                {category === "People & Body" && "👋"}
-                {category === "Animals & Nature" && "🐶"}
-                {category === "Food & Drink" && "🍎"}
-                {category === "Travel & Places" && "🚗"}
-                {category === "Activities" && "⚽"}
-                {category === "Objects" && "📱"}
-                {category === "Symbols" && "❤️"}
-                {category === "Flags" && "🏁"}
-              </button>
-            ))}
-          </div>
-
-          {/* Emoji Grid */}
-          <div className="p-3 max-h-64 overflow-y-auto">
-            <div className="grid grid-cols-8 gap-2">
-              {EMOJI_CATEGORIES[activeCategory].map((emoji, index) => (
+        {/* Emoji Dropdown */}
+        {isOpen && (
+          <div className="absolute top-7 right-full mb-2 w-80 max-h-96 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+            {/* Category Tabs */}
+            <div className="flex border-b border-gray-200 overflow-x-auto">
+              {Object.keys(EMOJI_CATEGORIES).map((category) => (
                 <button
-                  key={`${emoji}-${index}`}
-                  onClick={() => handleEmojiClick(emoji)}
-                  className="w-8 h-8 flex items-center justify-center text-xl leading-none hover:bg-gray-100 rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-                  aria-label={`Select ${emoji} emoji`}
+                  key={category}
+                  onClick={() =>
+                    setActiveCategory(category as keyof typeof EMOJI_CATEGORIES)
+                  }
+                  className={`flex-1 px-3 py-2 text-sm font-medium transition-colors duration-200 whitespace-nowrap ${
+                    activeCategory === category
+                      ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                  }`}
                 >
-                  {emoji}
+                  {category === "Smileys & Emotion" && "😊"}
+                  {category === "People & Body" && "👋"}
+                  {category === "Animals & Nature" && "🐶"}
+                  {category === "Food & Drink" && "🍎"}
+                  {category === "Travel & Places" && "🚗"}
+                  {category === "Activities" && "⚽"}
+                  {category === "Objects" && "📱"}
+                  {category === "Symbols" && "❤️"}
+                  {category === "Flags" && "🏁"}
                 </button>
               ))}
             </div>
+
+            {/* Emoji Grid */}
+            <div className="p-3 max-h-64 overflow-y-auto">
+              <div className="grid grid-cols-8 gap-2">
+                {EMOJI_CATEGORIES[activeCategory].map((emoji, index) => (
+                  <button
+                    key={`${emoji}-${index}`}
+                    onClick={() => handleEmojiClick(emoji)}
+                    className="w-8 h-8 flex items-center justify-center text-xl leading-none hover:bg-gray-100 rounded transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                    aria-label={`Select ${emoji} emoji`}
+                  >
+                    {emoji}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
-  );
-};
+        )}
+      </div>
+    );
+  }
+);
+
+EmojiSelector.displayName = "EmojiSelector";
 
 export default EmojiSelector;

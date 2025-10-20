@@ -10,7 +10,7 @@ export const FormattingToolbar = React.memo(() => {
         {/* Paragraph Dropdown */}
         <button
           className={
-            "cursor-pointer px-3 py-2 h-8 rounded-md flex flex-row items-center justify-center gap-2 text-sm font-medium transition-all duration-200 "
+            "cursor-pointer px-3 py-2 h-8 rounded-md flex flex-row items-center justify-center gap-2 text-sm font-medium transition-all duration-200  bg-white opacity-80 text-gray-600 hover:opacity-100 hover:text-gray-900"
           }
           onClick={handleUnimplementedAction}
         >
@@ -89,7 +89,10 @@ export const FormattingToolbar = React.memo(() => {
         </button>
       </div>
       <div className="flex items-center">
-        <button className="cursor-pointer w-8 h-8 rounded-md flex items-center justify-center bg-red-100 hover:bg-red-200 transition-all duration-200">
+        <button
+          onClick={handleUnimplementedAction}
+          className="cursor-pointer w-8 h-8 rounded-md flex items-center justify-center bg-red-100 hover:bg-red-200 transition-all duration-200"
+        >
           <img src={deleteIcon} alt="delete" width={16} height={16} />
         </button>
       </div>

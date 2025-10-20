@@ -7,10 +7,14 @@ interface FormCardProps {
   className?: string;
 }
 
-const FormCard: React.FC<FormCardProps> = ({ children, className }) => {
-  return (
-    <div className={classNames(formCardContainer, className)}>{children}</div>
-  );
-};
+const FormCard: React.FC<FormCardProps> = React.memo(
+  ({ children, className }) => {
+    return (
+      <div className={classNames(formCardContainer, className)}>{children}</div>
+    );
+  }
+);
+
+FormCard.displayName = "FormCard";
 
 export default FormCard;

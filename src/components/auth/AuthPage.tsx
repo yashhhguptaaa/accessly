@@ -1,3 +1,4 @@
+import React from "react";
 import { FormFooter, SignUpForm, SignInForm } from "./index";
 import { Header } from "@/components/Header";
 import { FloatingLayout, Layout } from "@/components/Layout";
@@ -7,7 +8,7 @@ interface AuthPageProps {
   onAuthSuccess?: () => void;
 }
 
-const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
+const AuthPage: React.FC<AuthPageProps> = React.memo(({ onAuthSuccess }) => {
   const {
     isLoading,
     handleSignUp,
@@ -40,6 +41,8 @@ const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
       </FloatingLayout>
     </div>
   );
-};
+});
+
+AuthPage.displayName = "AuthPage";
 
 export default AuthPage;

@@ -1,9 +1,10 @@
+import React from "react";
 import { FeedPost } from "./Post";
 import { WritePost } from "./WritePost";
 import { useFeed } from "@/hooks/useFeed";
 import { LoadingSpinner } from "../LoadingSpinner";
 
-export const Feed = () => {
+export const Feed = React.memo(() => {
   const {
     posts,
     loading,
@@ -41,4 +42,6 @@ export const Feed = () => {
       )}
     </div>
   );
-};
+});
+
+Feed.displayName = "Feed";

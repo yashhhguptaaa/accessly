@@ -10,40 +10,40 @@ interface HeaderProps {
   onLogout?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({
-  user = null,
-  onLogin,
-  onLogout,
-}) => {
-  const location = useLocation();
-  const navigate = useNavigate();
+export const Header: React.FC<HeaderProps> = React.memo(
+  ({ user = null, onLogin, onLogout }) => {
+    const location = useLocation();
+    const navigate = useNavigate();
 
-  const isLoginPage = location.pathname === "/login";
+    const isLoginPage = location.pathname === "/login";
 
-  const handleActionClick = () => {
-    if (isLoginPage) {
-      navigate("/");
-    } else if (user) {
-      onLogout?.();
-    } else {
-      onLogin?.();
-    }
-  };
+    const handleActionClick = () => {
+      if (isLoginPage) {
+        navigate("/");
+      } else if (user) {
+        onLogout?.();
+      } else {
+        onLogin?.();
+      }
+    };
 
-  return (
-    <header className={headerContainer}>
-      {/* Logo Section */}
-      <div className={logoContainer}>
-        {/* @TODO: Add logo icon */}
-        <p className={logoText}>Accessly</p>
-      </div>
+    return (
+      <header className={headerContainer}>
+        {/* Logo Section */}
+        <div className={logoContainer}>
+          {/* @TODO: Add logo icon */}
+          <p className={logoText}>Accessly</p>
+        </div>
 
-      {/* Action Button / User Info */}
-      <ActionButton
-        user={user}
-        handleActionClick={handleActionClick}
-        isLoginPage={isLoginPage}
-      />
-    </header>
-  );
-};
+        {/* Action Button / User Info */}
+        <ActionButton
+          user={user}
+          handleActionClick={handleActionClick}
+          isLoginPage={isLoginPage}
+        />
+      </header>
+    );
+  }
+);
+
+Header.displayName = "Header";
