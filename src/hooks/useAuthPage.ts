@@ -34,12 +34,15 @@ export const useAuthPage = ({
     confirmPassword: string;
   }) => {
     try {
+      console.log("handleSignUp data:", data);
       const { error } = await signUp({
         email: data.identifier,
         password: data.password,
         confirmPassword: data.confirmPassword,
         username: data.identifier, // Use identifier as username
       });
+
+      console.log("handleSignUp error:", error);
 
       if (error) {
         showToast.error("Sign up failed: " + error);

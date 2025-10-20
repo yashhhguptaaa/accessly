@@ -47,9 +47,8 @@ export const Feed = () => {
         .select(
           `
           *,
-          profiles:author_id (
-            username,
-            email
+          users:author_id (
+            email_or_username
           )
         `
         )
@@ -74,9 +73,8 @@ export const Feed = () => {
         .select(
           `
           *,
-          profiles:author_id (
-            username,
-            email
+          users:author_id (
+            email_or_username
           )
         `
         )
@@ -95,7 +93,10 @@ export const Feed = () => {
         emoji: data.emoji,
         created_at: data.created_at,
         updated_at: data.updated_at,
-        author: data.profiles,
+        author: {
+          username: data.users?.email_or_username || "Unknown",
+          email: data.users?.email_or_username || "",
+        },
       };
     } catch (error) {
       console.error("Error fetching post:", error);

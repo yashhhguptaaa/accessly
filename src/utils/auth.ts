@@ -1,35 +1,44 @@
 import { supabase } from "@/lib/supabase";
 import type { User, LoginCredentials, RegisterCredentials } from "@/types";
+import { setSession, getSession, clearSession } from "./session";
 
-// Simplified authentication functions - no cookies, no username lookup
+const hashPassword = (password: string): string => {
+  // hashing the password using btoa
+  return btoa(password);
+};
 
 export const signInWithCredentials = async (
   credentials: LoginCredentials
 ): Promise<{ user: User | null; error: string | null }> => {
   try {
     if (!credentials.email || !credentials.password) {
-      return { user: null, error: "Email and password are required" };
+      return { user: null, error: "Email/username and password are required" };
     }
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: credentials.email,
-      password: credentials.password,
-    });
+    const hashedPassword = hashPassword(credentials.password);
 
-    if (error) {
-      return { user: null, error: error.message };
+    // Check if user exists with this email/username and password
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("email_or_username", credentials.email)
+      .eq("password", hashedPassword)
+      .single();
+
+    if (error || !data) {
+      return { user: null, error: "Invalid credentials" };
     }
 
-    return {
-      user: data.user
-        ? {
-            id: data.user.id,
-            username: data.user.email?.split("@")[0] || "",
-            email: data.user.email || "",
-          }
-        : null,
-      error: null,
+    const user: User = {
+      id: data.id,
+      username: data.email_or_username,
+      email: data.email_or_username,
     };
+
+    // Set session in localStorage
+    setSession(user);
+
+    return { user, error: null };
   } catch (error) {
     return { user: null, error: "An unexpected error occurred" };
   }
@@ -40,32 +49,53 @@ export const signUpWithCredentials = async (
 ): Promise<{ user: User | null; error: string | null }> => {
   try {
     if (!credentials.email || !credentials.password) {
-      return { user: null, error: "Email and password are required" };
+      return { user: null, error: "Email/username and password are required" };
     }
 
     if (credentials.password !== credentials.confirmPassword) {
       return { user: null, error: "Passwords do not match" };
     }
 
-    const { data, error } = await supabase.auth.signUp({
-      email: credentials.email,
-      password: credentials.password,
-    });
+    const hashedPassword = hashPassword(credentials.password);
+
+    // Check if user already exists
+    const { data: existingUser } = await supabase
+      .from("users")
+      .select("id")
+      .eq("email_or_username", credentials.email)
+      .single();
+
+    if (existingUser) {
+      return {
+        user: null,
+        error: "User already exists with this email/username",
+      };
+    }
+
+    // Insert new user
+    const { data, error } = await supabase
+      .from("users")
+      .insert({
+        email_or_username: credentials.email,
+        password: hashedPassword,
+      })
+      .select()
+      .single();
 
     if (error) {
       return { user: null, error: error.message };
     }
 
-    return {
-      user: data.user
-        ? {
-            id: data.user.id,
-            username: data.user.email?.split("@")[0] || "",
-            email: data.user.email || "",
-          }
-        : null,
-      error: null,
+    const user: User = {
+      id: data.id,
+      username: data.email_or_username,
+      email: data.email_or_username,
     };
+
+    // Set session in localStorage
+    setSession(user);
+
+    return { user, error: null };
   } catch (error) {
     return { user: null, error: "An unexpected error occurred" };
   }
@@ -73,8 +103,8 @@ export const signUpWithCredentials = async (
 
 export const signOut = async (): Promise<{ error: string | null }> => {
   try {
-    const { error } = await supabase.auth.signOut();
-    return { error: error?.message || null };
+    clearSession();
+    return { error: null };
   } catch (error) {
     return { error: "An unexpected error occurred" };
   }
@@ -82,19 +112,7 @@ export const signOut = async (): Promise<{ error: string | null }> => {
 
 export const getCurrentUser = async (): Promise<User | null> => {
   try {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-
-    if (session?.user) {
-      return {
-        id: session.user.id,
-        username: session.user.email?.split("@")[0] || "",
-        email: session.user.email || "",
-      };
-    }
-
-    return null;
+    return getSession();
   } catch (error) {
     return null;
   }

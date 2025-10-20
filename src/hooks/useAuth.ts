@@ -30,7 +30,6 @@ export const useAuth = (): UseAuthReturn => {
         const currentUser = await getCurrentUser();
         setUser(currentUser);
       } catch (error) {
-        console.error("Error checking user session:", error);
         setUser(null);
       } finally {
         setIsLoading(false);
@@ -72,6 +71,7 @@ export const useAuth = (): UseAuthReturn => {
       try {
         const result = await signUpWithCredentials(credentials);
 
+        console.log("useAuth signUp result:", result);
         if (result.error) {
           setIsLoading(false);
           return { error: result.error };

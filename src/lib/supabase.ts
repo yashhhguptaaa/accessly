@@ -4,36 +4,30 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "your-supabase-url";
 const supabaseAnonKey =
   import.meta.env.VITE_SUPABASE_ANON_KEY || "your-supabase-anon-key";
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true,
-  },
-});
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export interface Database {
   public: {
     Tables: {
-      profiles: {
+      users: {
         Row: {
           id: string;
-          username: string;
-          email: string;
+          email_or_username: string;
+          password: string;
           created_at: string;
           updated_at: string;
         };
         Insert: {
-          id: string;
-          username: string;
-          email: string;
+          id?: string;
+          email_or_username: string;
+          password: string;
           created_at?: string;
           updated_at?: string;
         };
         Update: {
           id?: string;
-          username?: string;
-          email?: string;
+          email_or_username?: string;
+          password?: string;
           created_at?: string;
           updated_at?: string;
         };
