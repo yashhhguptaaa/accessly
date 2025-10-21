@@ -14,7 +14,7 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = React.memo(
     };
 
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center">
+      <div className="min-h-screen flex flex-col items-center justify-center pb-16 md:pb-24">
         <div
           className={`animate-spin rounded-full border-b-2 border-blue-600 ${sizeClasses[size]}`}
         />

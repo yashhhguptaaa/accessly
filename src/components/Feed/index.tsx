@@ -15,11 +15,7 @@ export const Feed = React.memo(() => {
   } = useFeed();
 
   if (loading) {
-    return (
-      <div className="flex flex-col gap-10 items-center justify-center w-full mt-5 sm:mt-10">
-        <LoadingSpinner message="Loading posts..." />
-      </div>
-    );
+    return <LoadingSpinner message="Loading posts..." />;
   }
 
   return (
