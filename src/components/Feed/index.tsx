@@ -19,7 +19,7 @@ export const Feed = React.memo(() => {
   }
 
   return (
-    <div className="flex flex-col gap-10 items-center justify-center w-full mt-5 sm:mt-10">
+    <div className="flex flex-col gap-10 items-center justify-center w-full mt-5 sm:mt-10 pb-10">
       <WritePost onPostCreated={handlePostCreated} />
       {posts.length === 0 ? (
         <div className="text-center text-gray-500">
