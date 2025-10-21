@@ -2,7 +2,9 @@
 
 A modern social media application built with React, TypeScript, and Tailwind CSS, implementing a complete authentication flow and interactive feed.
 
-### ✅ **Implemented Features**
+🔗 **Live Demo**: [https://accessly-git-main-yashhhguptaaas-projects.vercel.app/](https://accessly-git-main-yashhhguptaaas-projects.vercel.app/)
+
+## ✅ **Implemented Features**
 
 - **Three Main Pages**: Feed (landing page), Sign In (`/login`), and Sign Up (`/signup`)
 - **Authentication Flow**: Modal-based auth for unauthenticated users, dedicated auth pages
@@ -33,6 +35,20 @@ A modern social media application built with React, TypeScript, and Tailwind CSS
 - **Full Feed Access**: Create posts, view all posts, interact with content
 - **Post Creation**: Rich text input with emoji support and formatting options
 - **Real-time Updates**: New posts appear instantly via Supabase subscriptions
+
+## 📸 Screenshots
+
+Here are some visual previews of the application's key interfaces:
+
+### **Homepage & Feed**
+
+![Homepage](./public/svg/homepage.png)
+![Homepage with Sign Up](./public/svg/homepage_sign-up.png)
+
+### **Authentication Pages**
+
+![Sign In Page](./public/svg/login-page_sign-in.png)
+![Sign Up Page](./public/svg/login-page_sign-up.png)
 
 ## 🏗️ Project Structure
 
@@ -108,6 +124,33 @@ src/
 - **Accessibility**: Proper ARIA labels and keyboard navigation
 - **Loading States**: Skeleton screens and loading indicators
 - **Error Handling**: Graceful error states with user feedback
+
+## 🚀 Future Improvements
+
+Here are some enhancements that could be implemented to further improve the application:
+
+### **Post Creation & Editing**
+
+- **Implement Toolbar Functionality**: Complete the rich text formatting toolbar with functional bold, italic, underline, paragraph styles, alignment options, quote formatting, and code block insertion
+- **Enhanced Media Support**: Add image/video upload capabilities with drag-and-drop functionality
+
+### **Security & Performance**
+
+- **Secure Credential Storage**: Migrate from localStorage to HTTP-only cookies for enhanced security against XSS attacks
+- **Implement Caching Strategy**: Add intelligent caching for user-specific posts and feed data to reduce API calls and improve load times
+- **Optimize Scrolling Performance**: Implement virtual scrolling for the feed to handle large numbers of posts efficiently
+
+### **Quality Assurance**
+
+- **Comprehensive Test Coverage**: Write unit tests, integration tests, and end-to-end tests for all components and user flows
+- **Accessibility Testing**: Ensure WCAG compliance and screen reader compatibility
+- **Performance Monitoring**: Add analytics and monitoring for user interactions and system performance
+
+### **Advanced Features**
+
+- **Real-time Collaboration**: Enable multiple users to edit posts simultaneously
+- **Advanced Search & Filtering**: Implement search functionality with filters for date, author, and content type
+- **Push Notifications**: Add browser notification support for new posts and interactions
 
 ## 🔧 Development Notes
 
