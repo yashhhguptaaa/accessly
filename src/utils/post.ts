@@ -56,7 +56,6 @@ export const createPost = async (
       },
     };
 
-    showActionToast("POST_CREATED", true);
     onSuccess?.(newPost);
     return newPost;
   } catch (error) {

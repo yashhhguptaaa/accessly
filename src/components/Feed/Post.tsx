@@ -13,7 +13,10 @@ export interface Post {
   updated_at: string;
   author?: {
     username: string;
-    email: string;
+    email?: string;
+  };
+  users?: {
+    email_or_username: string;
   };
 }
 
@@ -44,7 +47,9 @@ export const FeedPost: React.FC<FeedPostProps> = React.memo(
         <div className="bg-white rounded-2xl p-2 sm:p-3 pr-4 sm:pr-8 pb-4 sm:pb-6 shadow-lg w-full flex flex-row gap-2 sm:gap-3">
           <div className="flex flex-col gap-2 sm:gap-3 items-center">
             <p className="w-10 h-10 sm:w-13 sm:h-13 bg-gray-100 rounded-xl flex items-center justify-center text-xs sm:text-sm">
-              {post.author?.username?.slice(0, 2).toUpperCase()}
+              {post.author?.username?.slice(0, 2).toUpperCase() ||
+                post.users?.email_or_username?.slice(0, 2).toUpperCase() ||
+                "AN"}
             </p>
             {post.emoji && (
               <p className="w-7 h-7 sm:w-9 sm:h-9 bg-gray-100 rounded-full flex items-center justify-center">
@@ -55,7 +60,9 @@ export const FeedPost: React.FC<FeedPostProps> = React.memo(
           <div className="flex flex-col gap-2 sm:gap-3">
             <div className="flex flex-col gap-0 h-10 sm:h-13 justify-center">
               <p className="font-bold text-gray-900 text-sm">
-                {post.author?.username || "Anonymous"}
+                {post.author?.username ||
+                  post.users?.email_or_username ||
+                  "Anonymous"}
               </p>
               <p className="text-gray-500 text-xs">
                 {formatDate(post.created_at)}
